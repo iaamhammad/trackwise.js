@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" width="700" height="420" role="img" aria-label="trackwise.js demo animation">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1a1a2e" flood-opacity="0.18"/>
+    </filter>
+    <radialGradient id="heat1">
+      <stop offset="0%" stop-color="rgba(255,60,60,0.75)"/>
+      <stop offset="55%" stop-color="rgba(255,60,60,0.22)"/>
+      <stop offset="100%" stop-color="rgba(255,60,60,0)"/>
+    </radialGradient>
+    <clipPath id="logClip">
+      <rect id="logReveal" x="468" y="96" width="210" height="0"/>
+    </clipPath>
+    <style>
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .ui { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+      #cursor {
+        animation: cursorPath 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        transform-box: view-box;
+      }
+      @keyframes cursorPath {
+        0%      { transform: translate(52px, 84px); opacity: 0; }
+        4%      { transform: translate(52px, 84px); opacity: 1; }
+        14%     { transform: translate(82px, 205px); }
+        30%     { transform: translate(86px, 209px); }
+        42%     { transform: translate(145px, 260px); }
+        58%     { transform: translate(147px, 262px); }
+        70%     { transform: translate(88px, 148px); }
+        84%     { transform: translate(90px, 150px); }
+        96%     { transform: translate(52px, 84px); opacity: 1; }
+        100%    { transform: translate(52px, 84px); opacity: 0; }
+      }
+
+      .pulse {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .p1 { animation: pulse 8s ease-out infinite; animation-delay: 1.12s; }
+      .p2 { animation: pulse 8s ease-out infinite; animation-delay: 1.36s; }
+      .p3 { animation: pulse 8s ease-out infinite; animation-delay: 1.60s; }
+      .p4 { animation: pulse 8s ease-out infinite; animation-delay: 3.40s; }
+      .p5 { animation: pulse 8s ease-out infinite; animation-delay: 5.65s; }
+      @keyframes pulse {
+        0%   { opacity: 0; transform: scale(0.3); }
+        3%   { opacity: 0.9; }
+        10%  { opacity: 0; transform: scale(1.5); }
+        100% { opacity: 0; transform: scale(1.5); }
+      }
+
+      #logReveal {
+        animation: reveal 8s ease-out infinite;
+      }
+      @keyframes reveal {
+        0%, 6%   { height: 0px; }
+        78%      { height: 270px; }
+        90%,100% { height: 270px; }
+      }
+
+      #logGroup { animation: logFade 8s linear infinite; }
+      @keyframes logFade {
+        0%, 4%    { opacity: 0; }
+        10%       { opacity: 1; }
+        88%       { opacity: 1; }
+        94%, 100% { opacity: 0; }
+      }
+
+      #heatGroup { animation: heatFade 8s ease-in-out infinite; }
+      @keyframes heatFade {
+        0%, 70%   { opacity: 0; }
+        84%       { opacity: 1; }
+        90%       { opacity: 1; }
+        96%, 100% { opacity: 0; }
+      }
+
+      #caret { animation: blink 1s steps(2, start) infinite; }
+      @keyframes blink { to { visibility: hidden; } }
+
+      .chip { animation: chipPop 8s ease-in-out infinite; }
+      @keyframes chipPop {
+        0%, 20%  { transform: translateY(6px); opacity: 0; }
+        26%      { transform: translateY(0); opacity: 1; }
+        88%      { transform: translateY(0); opacity: 1; }
+        94%,100% { transform: translateY(-6px); opacity: 0; }
+      }
+      .chip1 { animation-delay: 0.2s; }
+      .chip2 { animation-delay: 1.4s; }
+      .chip3 { animation-delay: 3.2s; }
+      .chip4 { animation-delay: 5.4s; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="700" height="420" rx="14" fill="#f6f7fb"/>
+
+  <g filter="url(#shadow)">
+    <rect x="8" y="8" width="684" height="404" rx="12" fill="#ffffff" stroke="#e4e4ef"/>
+  </g>
+
+  <rect x="8" y="8" width="684" height="40" rx="12" fill="#f1f2f8"/>
+  <rect x="8" y="36" width="684" height="12" fill="#f1f2f8"/>
+  <circle cx="30" cy="28" r="6" fill="#f87171"/>
+  <circle cx="50" cy="28" r="6" fill="#fbbf24"/>
+  <circle cx="70" cy="28" r="6" fill="#34d399"/>
+  <rect x="96" y="18" width="300" height="20" rx="10" fill="#e4e5f1"/>
+  <text x="108" y="32" class="mono" font-size="11" fill="#6b6b80">localhost:5173/demo</text>
+
+  <g>
+    <rect x="32" y="68" width="200" height="16" rx="4" fill="#1a1a2e"/>
+    <rect x="32" y="98" width="380" height="9" rx="4" fill="#d7d8e6"/>
+    <rect x="32" y="115" width="350" height="9" rx="4" fill="#d7d8e6"/>
+    <rect x="32" y="132" width="368" height="9" rx="4" fill="#d7d8e6"/>
+
+    <rect x="32" y="196" width="112" height="36" rx="8" fill="#4338ca"/>
+    <text x="88" y="219" class="ui" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">Sign up</text>
+
+    <rect x="32" y="250" width="240" height="34" rx="8" fill="#ffffff" stroke="#c7c7d9" stroke-width="1.5"/>
+    <rect x="44" y="262" width="1.6" height="12" fill="#4338ca" id="caret"/>
+    <rect x="32" y="296" width="80" height="8" rx="4" fill="#d7d8e6"/>
+
+    <rect x="32" y="326" width="380" height="9" rx="4" fill="#d7d8e6"/>
+    <rect x="32" y="343" width="330" height="9" rx="4" fill="#d7d8e6"/>
+    <rect x="32" y="360" width="356" height="9" rx="4" fill="#d7d8e6"/>
+    <rect x="32" y="377" width="240" height="9" rx="4" fill="#d7d8e6"/>
+  </g>
+
+  <g id="heatGroup">
+    <circle cx="88" cy="213" r="52" fill="url(#heat1)"/>
+    <circle cx="147" cy="266" r="44" fill="url(#heat1)"/>
+    <circle cx="90" cy="150" r="40" fill="url(#heat1)"/>
+  </g>
+
+  <rect x="460" y="60" width="216" height="336" rx="12" fill="#0f172a"/>
+  <text x="476" y="86" class="mono" font-size="11" font-weight="700" fill="#7dd3fc">LIVE EVENTS</text>
+  <line x1="476" y1="94" x2="660" y2="94" stroke="#1e293b" stroke-width="1"/>
+
+  <g id="logGroup">
+    <g clip-path="url(#logClip)" class="mono" font-size="10.5">
+      <text x="476" y="116" fill="#a5f3fc">› pageview      /demo</text>
+      <text x="476" y="140" fill="#fca5a5">› click         #signup-btn</text>
+      <text x="476" y="164" fill="#fde68a">› rage_click    ×3 same spot</text>
+      <text x="476" y="188" fill="#a5f3fc">› form_focus    email</text>
+      <text x="476" y="212" fill="#a5f3fc">› form_input    len=14</text>
+      <text x="476" y="236" fill="#fde68a">› scroll_depth  75%</text>
+      <text x="476" y="260" fill="#fde68a">› dead_click    p.placeholder</text>
+      <text x="476" y="284" fill="#a5f3fc">› form_submit   ok · 2.4s</text>
+      <text x="476" y="308" fill="#86efac">› web_vitals    lcp 1.2s</text>
+      <text x="476" y="332" fill="#a5f3fc">› flush         9 events → beacon</text>
+      <text x="476" y="356" fill="#64748b">› …</text>
+    </g>
+  </g>
+
+  <g class="chip chip1">
+    <rect x="330" y="182" width="118" height="24" rx="12" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="389" y="198" class="ui" font-size="11" font-weight="600" fill="#92400e" text-anchor="middle">rage_click ×3</text>
+  </g>
+  <g class="chip chip2">
+    <rect x="300" y="244" width="110" height="24" rx="12" fill="#ecfdf5" stroke="#10b981"/>
+    <text x="355" y="260" class="ui" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">form_focus</text>
+  </g>
+  <g class="chip chip3">
+    <rect x="196" y="136" width="104" height="24" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+    <text x="248" y="152" class="ui" font-size="11" font-weight="600" fill="#991b1b" text-anchor="middle">dead_click</text>
+  </g>
+  <g class="chip chip4">
+    <rect x="330" y="330" width="96" height="24" rx="12" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="378" y="346" class="ui" font-size="11" font-weight="600" fill="#3730a3" text-anchor="middle">beacon ✓</text>
+  </g>
+
+  <circle class="pulse p1" cx="88" cy="213" r="20" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <circle class="pulse p2" cx="88" cy="213" r="20" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <circle class="pulse p3" cx="88" cy="213" r="20" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <circle class="pulse p4" cx="147" cy="266" r="20" fill="none" stroke="#6366f1" stroke-width="3"/>
+  <circle class="pulse p5" cx="90" cy="150" r="20" fill="none" stroke="#f59e0b" stroke-width="3"/>
+
+  <g id="cursor">
+    <path d="M0 0 L0 17 L4.5 12.5 L7.5 19 L10.5 17.5 L7.5 11.5 L13 11 Z"
+          fill="#111827" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round"/>
+  </g>
+</svg>

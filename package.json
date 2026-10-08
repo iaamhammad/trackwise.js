@@ -1,0 +1,47 @@
+{
+  "name": "trackwise.js",
+  "version": "1.0.0",
+  "description": "Privacy-first drop-in usability tracker: clicks, rage clicks, dead clicks, scroll depth, form friction, JS errors, heatmaps.",
+  "keywords": [
+    "usability",
+    "analytics",
+    "heatmap",
+    "rage-click",
+    "scroll-depth",
+    "tracking",
+    "ux"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/trackwise.cjs",
+  "module": "./dist/trackwise.esm.js",
+  "browser": "./dist/trackwise.min.js",
+  "unpkg": "./dist/trackwise.min.js",
+  "jsdelivr": "./dist/trackwise.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/trackwise.esm.js",
+      "require": "./dist/trackwise.cjs",
+      "default": "./dist/trackwise.min.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test",
+    "demo": "node scripts/serve.mjs",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "jsdom": "^29.1.1"
+  }
+}

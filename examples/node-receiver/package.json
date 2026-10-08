@@ -1,0 +1,13 @@
+{
+  "name": "trackwise-receiver-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal Express receiver for trackwise.js events",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

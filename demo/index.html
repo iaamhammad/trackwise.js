@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>trackwise.js — Interactive Demo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: #1a1a2e;
+      background: #f6f7fb;
+    }
+    header {
+      background: linear-gradient(135deg, #4338ca, #7c3aed);
+      color: #fff;
+      padding: 48px 24px;
+      text-align: center;
+    }
+    header h1 { font-size: 2.4rem; margin-bottom: 8px; }
+    header p { opacity: 0.85; max-width: 560px; margin: 0 auto; }
+    nav {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      background: #fff;
+      padding: 14px;
+      border-bottom: 1px solid #e4e4ef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+    nav a { color: #4338ca; text-decoration: none; font-weight: 600; }
+    nav a:hover { text-decoration: underline; }
+    main { max-width: 960px; margin: 32px auto; padding: 0 20px; }
+    section {
+      background: #fff;
+      border: 1px solid #e4e4ef;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    h2 { margin-bottom: 14px; font-size: 1.3rem; }
+    h3 { margin: 18px 0 8px; font-size: 1.05rem; }
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 4px 6px 4px 0;
+      background: #4338ca;
+      color: #fff;
+      transition: transform 0.1s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.secondary { background: #e4e4ef; color: #1a1a2e; }
+    .btn.danger { background: #dc2626; }
+    .btn.heatmap { background: #ea580c; }
+    form { display: grid; gap: 12px; max-width: 420px; margin-top: 12px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    input, select, textarea {
+      padding: 10px;
+      border: 1px solid #c7c7d9;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    input:focus, textarea:focus, select:focus { outline: 2px solid #7c3aed; border-color: transparent; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 14px; }
+    .card {
+      background: #f6f7fb;
+      border-radius: 10px;
+      padding: 16px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .card:hover { border-color: #7c3aed; }
+    .placeholder-text { color: #6b6b80; }
+    #feed {
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      background: #0f172a;
+      color: #a5f3fc;
+      border-radius: 10px;
+      padding: 14px;
+      height: 280px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    #feed .line-hot { color: #fca5a5; }
+    #feed .line-signal { color: #fde68a; }
+    .tall { min-height: 1400px; }
+    .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+    .stat { background: #f6f7fb; border-radius: 8px; padding: 8px 14px; font-size: 0.9rem; }
+    .stat b { color: #4338ca; }
+    footer { text-align: center; padding: 24px; color: #6b6b80; font-size: 0.9rem; }
+    code { background: #eef0ff; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>trackwise.js</h1>
+    <p>Click around, rage-click, scroll, fill the form (values are never recorded), then watch the live event feed below.</p>
+  </header>
+
+  <nav>
+    <a href="#buttons">Buttons</a>
+    <a href="#form">Form</a>
+    <a href="#content">Content</a>
+    <a href="#feed-section">Live feed</a>
+    <a href="#" id="nav-fake">Broken link</a>
+  </nav>
+
+  <main>
+    <section id="buttons">
+      <h2>1. Click behavior</h2>
+      <p>Try rapid-fire clicking on the same button (rage click), clicking the text below it (dead/misclick), and clicking around the cards.</p>
+      <button class="btn" id="action-btn">Primary action</button>
+      <button class="btn secondary" id="toggle-btn">Toggle me</button>
+      <button class="btn danger" id="error-btn">Trigger a JS error</button>
+      <p style="margin-top: 14px" class="placeholder-text">
+        This is plain text — clicking here counts as a dead click because nothing happens.
+        Try clicking it 3 times fast in the same spot to fire a rage click.
+      </p>
+      <div class="grid">
+        <div class="card"><strong>Card A</strong><br /><span class="placeholder-text">Read-only content</span></div>
+        <div class="card"><strong>Card B</strong><br /><span class="placeholder-text">Also read-only</span></div>
+        <div class="card"><strong>Card C</strong><br /><span class="placeholder-text">Me neither</span></div>
+      </div>
+    </section>
+
+    <section id="form">
+      <h2>2. Form friction</h2>
+      <p>Focus fields, type, pick options, then submit — or walk away halfway to trigger <code>form_abandon</code>. Field values are never logged, only metadata.</p>
+      <form id="signup-form">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" />
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" />
+        <label for="plan">Plan</label>
+        <select id="plan" name="plan">
+          <option value="">Choose a plan…</option>
+          <option value="free">Free</option>
+          <option value="pro">Pro</option>
+          <option value="team">Team</option>
+        </select>
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="Anything else?"></textarea>
+        <button class="btn" type="submit">Sign up</button>
+      </form>
+      <p id="form-result" style="margin-top: 10px; color: #16a34a; display: none">Submitted! (check the live feed)</p>
+    </section>
+
+    <section id="content">
+      <h2>3. Scroll depth &amp; attention</h2>
+      <p>Scroll down slowly, then scroll up and down erratically (fast reversals) to trigger <code>erratic_scroll</code>. Milestones fire at 25/50/75/90/100%.</p>
+      <div class="tall" style="padding-top: 40px">
+        <p class="placeholder-text">… lots of filler content …</p>
+        <p class="placeholder-text">Most visitors never reach this point.</p>
+        <p class="placeholder-text">Even fewer reach the very bottom.</p>
+      </div>
+    </section>
+
+    <section id="feed-section">
+      <h2>4. Live event feed</h2>
+      <p>Powered by <code>TrackWise.onLog()</code>. Signals (rage, dead, misclick, errors) are highlighted.</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0">
+        <button class="btn heatmap" id="heatmap-btn">Toggle heatmap</button>
+        <button class="btn secondary" id="export-btn">Export JSON</button>
+        <button class="btn secondary" id="clear-btn">Clear logs</button>
+        <button class="btn secondary" id="stats-btn">Stats</button>
+        <button class="btn secondary" id="custom-btn">track("signup_click")</button>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div id="feed">waiting for events…</div>
+    </section>
+  </main>
+
+  <footer>
+    trackwise.js demo — data is sent to <code>http://localhost:3000/api/trackwise</code> when the
+    example receiver is running, otherwise it queues locally.
+  </footer>
+
+  <script>
+    window.TRACKWISE_CONFIG = {
+      endpoint: 'http://localhost:3000/api/trackwise',
+      debug: true
+    };
+  </script>
+  <script src="../dist/trackwise.min.js" data-auto-init="true" data-debug="true"></script>
+  <script>
+    const feed = document.getElementById('feed');
+    const signals = new Set(['rage_click', 'dead_click', 'misclick', 'js_error', 'form_abandon', 'erratic_scroll', 'form_error']);
+    let heatmapVisible = false;
+    let eventCount = 0;
+
+    function appendFeed(event) {
+      eventCount += 1;
+      if (eventCount === 1) feed.textContent = '';
+      const isSignal = signals.has(event.type);
+      const line = document.createElement('div');
+      line.className = isSignal ? 'line-signal' : event.type === 'click' ? 'line-hot' : '';
+      const extra = event.target && event.target.text ? ` "${event.target.text}"` : '';
+      line.textContent = `[${event.type}]${extra} seq=${event.seq}`;
+      feed.appendChild(line);
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    TrackWise.onLog(appendFeed);
+
+    document.getElementById('action-btn').addEventListener('click', () => {
+      alert('Action executed!');
+    });
+
+    document.getElementById('toggle-btn').addEventListener('click', (e) => {
+      e.target.textContent = e.target.textContent === 'Toggle me' ? 'Toggled!' : 'Toggle me';
+    });
+
+    document.getElementById('error-btn').addEventListener('click', () => {
+      undefinedFunctionThatDoesNotExist();
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('form-result').style.display = 'block';
+    });
+
+    document.getElementById('heatmap-btn').addEventListener('click', () => {
+      heatmapVisible = !heatmapVisible;
+      if (heatmapVisible) {
+        TrackWise.renderHeatmap({ radius: 30, alpha: 0.5 });
+      } else {
+        TrackWise.clearHeatmap();
+      }
+    });
+
+    document.getElementById('export-btn').addEventListener('click', () => {
+      const json = TrackWise.exportJSON();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'trackwise-logs.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      TrackWise.clearLogs();
+      TrackWise.clearHeatmap();
+      heatmapVisible = false;
+      eventCount = 0;
+      feed.textContent = 'logs cleared — keep clicking…';
+    });
+
+    document.getElementById('stats-btn').addEventListener('click', () => {
+      const stats = TrackWise.stats();
+      const el = document.getElementById('stats');
+      el.innerHTML = '';
+      const entries = {
+        tracking: stats.tracking,
+        events: stats.history,
+        queued: stats.queue.queued,
+        dropped: stats.queue.dropped,
+        session: stats.sessionId,
+        visitor: stats.visitorId
+      };
+      for (const [key, value] of Object.entries(entries)) {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `${key}: <b>${value}</b>`;
+        el.appendChild(div);
+      }
+    });
+
+    document.getElementById('custom-btn').addEventListener('click', () => {
+      TrackWise.track('signup_click', { plan: 'pro', source: 'demo' });
+    });
+  </script>
+</body>
+</html>
