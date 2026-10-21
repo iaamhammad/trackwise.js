@@ -2,8 +2,6 @@
 
 **Privacy-first, drop-in usability tracker for any website.** Record clicks, rage clicks, dead clicks, scroll depth, form friction, JS errors and Core Web Vitals — then render a click heatmap right on the live page.
 
-🚀 **Live demo:** [iaamhammad.github.io/trackwise.js/demo](https://iaamhammad.github.io/trackwise.js/demo/)
-
 ![trackwise.js demo](docs/demo.svg)
 
 ![npm](https://img.shields.io/badge/npm-trackwise.js-blue)
